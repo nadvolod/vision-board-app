@@ -67,12 +67,12 @@ const initialGoals: Goal[] = [
 ];
 
 const VisionBoard: React.FC = () => {
-  const [goals] = useState(initialGoals);
+  const [goals] = useState<Goal[]>(initialGoals);
   const [open, setOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentGoalIndex, setCurrentGoalIndex] = useState(0);
 
   const onOpenModal = (index: number) => {
-    setCurrentIndex(index);
+    setCurrentGoalIndex(index);
     setOpen(true);
   };
 
@@ -80,54 +80,56 @@ const VisionBoard: React.FC = () => {
     setOpen(false);
   };
 
-  const handlePrev = () => {
-    setCurrentIndex((currentIndex - 1 + goals.length) % goals.length);
+  const onNext = () => {
+    setCurrentGoalIndex((currentGoalIndex + 1) % goals.length);
   };
 
-  const handleNext = () => {
-    setCurrentIndex((currentIndex + 1) % goals.length);
+  const onPrevious = () => {
+    setCurrentGoalIndex((currentGoalIndex - 1 + goals.length) % goals.length);
   };
 
   return (
-    <div className="grid grid-cols-3 gap-4 h-screen w-screen p-4 bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-300">
+    <div data-testid="vision-board-grid" className="grid grid-cols-3 gap-4 h-screen w-screen p-4 bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-300">
       {goals.map((goal, index) => (
         <div
           key={goal.id}
+          data-testid={`vision-board-item-${index}`}
           className="border-2 border-indigo-200 rounded-lg p-4 h-full w-full flex flex-col justify-between bg-white bg-opacity-90 shadow-xl"
           onClick={() => onOpenModal(index)}
         >
-          <h3 className="text-lg font-bold mb-2 text-indigo-800">{goal.description}</h3>
-          <p className="text-indigo-600">Due date: {goal.dueDate}</p>
-          <img
-            src={goal.imageUrl}
-            alt="Goal"
-            className="mt-2 w-full h-auto flex-grow rounded-lg object-cover cursor-pointer"
-          />
+          <img className="object-cover h-2/3 w-full rounded-lg" src={goal.imageUrl} alt={goal.title} />
+          <div className="mt-4">
+            <h3 className="text-xl font-semibold mb-2">{goal.title}</h3>
+            <p className="text-indigo-500">Due Date: {goal.dueDate}</p>
+          </div>
         </div>
       ))}
       <Modal open={open} onClose={onCloseModal} center>
         <div className="w-screen h-screen flex flex-col justify-between">
-          <img src={goals[currentIndex].imageUrl} alt="Goal" className="w-full h-auto mt-2" />
-          <div className="flex justify-between mt-4">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={handlePrev}
-            >
-              Previous
-            </button>
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={handleNext}
-            >
-              Next
-            </button>
-          </div>
-          <button
-            className="absolute top-4 right-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            onClick={onCloseModal}
-          >
-            Close
-          </button>
+          <img className="object-cover h-screen w-screen" src={goals[currentGoalIndex].imageUrl} alt={goals[currentGoalIndex].title} />
+          {open && (
+            <>
+              <button
+                data-testid="modal-close-button"
+                className="absolute top-4 right-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={onCloseModal}
+              >
+                Close
+              </button>
+              <button
+                className="absolute bottom-4 left-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={onPrevious}
+              >
+                Previous
+              </button>
+              <button
+                className="absolute bottom-4 right-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                onClick={onNext}
+              >
+                Next
+              </button>
+            </>
+          )}
         </div>
       </Modal>
     </div>
