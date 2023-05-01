@@ -65,17 +65,23 @@ const initialGoals: Goal[] = [
   },
 ];
 
-
 const VisionBoard: React.FC = () => {
   const [goals] = useState(initialGoals);
 
   return (
-    <div className="grid grid-cols-3 gap-4 h-screen w-screen p-4">
+    <div className="grid grid-cols-3 gap-4 h-screen w-screen p-4 bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-300">
       {goals.map((goal) => (
-        <div key={goal.id} className="border rounded p-4 h-full w-full flex flex-col justify-between">
-          <h3 className="text-lg font-bold mb-2">{goal.description}</h3>
-          <p>Due date: {goal.dueDate}</p>
-          <img src={goal.imageUrl} alt="Goal" className="mt-2 w-full h-auto flex-grow" />
+        <div
+          key={goal.id}
+          className="border-2 border-indigo-200 rounded-lg p-4 h-full w-full flex flex-col justify-between bg-white bg-opacity-90 shadow-xl"
+        >
+          <h3 className="text-lg font-bold mb-2 text-indigo-800">{goal.description}</h3>
+          <p className="text-indigo-600">Due date: {goal.dueDate}</p>
+          <img
+            src={goal.imageUrl}
+            alt="Goal"
+            className="mt-2 w-full h-auto flex-grow rounded-lg object-cover"
+          />
         </div>
       ))}
     </div>
