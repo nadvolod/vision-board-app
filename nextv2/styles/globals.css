@@ -1,0 +1,17 @@
+/* src/styles/globals.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+body {
+  background-color: #f3f4f6;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Custom color palette */
+:root {
+  --color-primary: #5c6ac4;
+  --color-secondary: #ffa372;
+  --color-accent: #f7c948;
+  --color-text: #2c3e50;
+}
