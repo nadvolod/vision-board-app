@@ -67,13 +67,23 @@ export default function Home() {
       <Grid container spacing={2}>
         {goals.map((goal, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card>
-              <CardMedia component="img" image={goal.image} alt={goal.description} onClick={() => handleOpen(index)} />
-              <CardContent>
-                <Typography variant="h6">{goal.description}</Typography>
-                <Typography variant="body2">{goal.date}</Typography>
-              </CardContent>
-            </Card>
+            <Card key={index}>
+            <CardMedia
+              component="img"
+              image={goal.image}
+              alt={goal.description}
+              onClick={() => handleOpen(index)}
+              data-testid={`goal-image-${index}`}
+            />
+            <CardContent>
+              <Typography variant="h6" data-testid={`goal-description-${index}`}>
+                {goal.description}
+              </Typography>
+              <Typography variant="body2" data-testid={`goal-date-${index}`}>
+                {goal.date}
+              </Typography>
+            </CardContent>
+          </Card>
           </Grid>
         ))}
       </Grid>
