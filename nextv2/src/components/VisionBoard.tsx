@@ -97,16 +97,16 @@ const VisionBoard: React.FC = () => {
           className="border-2 border-indigo-200 rounded-lg p-4 h-full w-full flex flex-col justify-between bg-white bg-opacity-90 shadow-xl"
           onClick={() => onOpenModal(index)}
         >
-          <img className="object-cover h-2/3 w-full rounded-lg" src={goal.imageUrl} alt={goal.title} />
+          <img className="object-cover h-2/3 w-full rounded-lg" src={goal.imageUrl} alt={goal.description} />
           <div className="mt-4">
-            <h3 className="text-xl font-semibold mb-2">{goal.title}</h3>
+            <h3 className="text-xl font-semibold mb-2">{goal.description}</h3>
             <p className="text-indigo-500">Due Date: {goal.dueDate}</p>
           </div>
         </div>
       ))}
       <Modal open={open} onClose={onCloseModal} center>
         <div className="w-screen h-screen flex flex-col justify-between">
-          <img className="object-cover h-screen w-screen" src={goals[currentGoalIndex].imageUrl} alt={goals[currentGoalIndex].title} />
+          <img className="object-cover h-screen w-screen" src={goals[currentGoalIndex].imageUrl} alt={goals[currentGoalIndex].description} />
           {open && (
             <>
               <button
