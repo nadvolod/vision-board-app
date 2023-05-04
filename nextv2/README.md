@@ -18,6 +18,18 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
+## Original Prompt Used
+
+```text
+Act as a world-class developer. You will create a vision board web app that is fast, has beautiful and relevant styling. These are the requirements
+* The app will have a 2x3 grid of goals. An image, a goal description, and a deadline date
+* Will use NextJS, material UI
+* Must be as fast as possible
+* When an image is clicked, it will open up a modal in a full-screen view
+* The modal will have next, back, and close buttons
+Share the code to implement this app.
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
