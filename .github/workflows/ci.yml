@@ -23,9 +23,21 @@ jobs:
       run: npm run build
       working-directory: nextv3
 
-    - name: Run Playwright tests
+    - name: Install Playwright
+      run: npx playwright install --with-deps
+      working-directory: nextv3
+
+    - name: Run your tests
       run: npm run test-playwright
       working-directory: nextv3
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: playwright-report
+        path: playwright-report
+        working-directory: nextv3
 
   deploy:
     runs-on: ubuntu-latest
