@@ -1,13 +1,15 @@
-import { axeCheck } from '@axe-core/playwright';
+import AxeBuilder from '@axe-core/playwright'; // 1
 import { expect, test } from '@playwright/test';
 
-test.describe('Vision Board Accessibility', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+test('example with attachment', async ({ page }, testInfo) => {
+  await page.goto('/');
+
+  const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+
+  await testInfo.attach('accessibility-scan-results', {
+    body: JSON.stringify(accessibilityScanResults, null, 2),
+    contentType: 'application/json'
   });
 
-  test('should have no accessibility violations', async ({ page }) => {
-    const { violations } = await axeCheck(page);
-    expect(violations.length).toBe(0);
-  });
+  expect(accessibilityScanResults.violations).toEqual([]);
 });
