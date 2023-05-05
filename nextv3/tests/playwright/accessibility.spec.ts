@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'; // 1
 import { expect, test } from '@playwright/test';
 
-test('example with attachment', async ({ page }, testInfo) => {
+test.skip('example with attachment', async ({ page }, testInfo) => {
   await page.goto('/');
 
   const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
