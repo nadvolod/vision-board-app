@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test-playwright": "playwright test"
   },
   "dependencies": {
     "@axe-core/playwright": "^4.7.0",
