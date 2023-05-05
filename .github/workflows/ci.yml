@@ -17,12 +17,15 @@ jobs:
 
     - name: Install dependencies
       run: npm ci
+      working-directory: nextv3
 
     - name: Build project
       run: npm run build
+      working-directory: nextv3
 
     - name: Run Playwright tests
       run: npm run test-playwright
+      working-directory: nextv3
 
   deploy:
     runs-on: ubuntu-latest
@@ -39,9 +42,11 @@ jobs:
 
     - name: Install dependencies
       run: npm ci
+      working-directory: nextv3
 
     - name: Build project
       run: npm run build
+      working-directory: nextv3
 
     - name: Deploy to Netlify
       uses: netlify/actions/cli@master
@@ -50,6 +55,7 @@ jobs:
         NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       with:
         args: deploy --prod
+        working-directory: nextv3
 
   retest_deployed_app:
     runs-on: ubuntu-latest
@@ -66,8 +72,10 @@ jobs:
 
     - name: Install dependencies
       run: npm ci
+      working-directory: nextv3
 
     - name: Run Playwright tests on deployed app
       run: npm run test-playwright
+      working-directory: nextv3
       env:
         BASE_URL: ${{ secrets.DEPLOYED_APP_URL }}
