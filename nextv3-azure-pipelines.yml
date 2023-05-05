@@ -1,0 +1,92 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: BuildAndTest
+  displayName: 'Build and Test'
+  jobs:
+  - job: BuildAndTestJob
+    displayName: 'Build and Test Job'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '16.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        cd nextv3
+        npm ci
+      displayName: 'Install dependencies'
+
+    - script: |
+        cd nextv3
+        npm run build
+      displayName: 'Build project'
+
+    - script: |
+        cd nextv3
+        npm run test-playwright
+      displayName: 'Run Playwright tests'
+
+- stage: Deploy
+  displayName: 'Deploy to Netlify'
+  dependsOn: BuildAndTest
+  condition: succeeded()
+  jobs:
+  - deployment: DeployJob
+    displayName: 'Deploy Job'
+    environment: 'production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '16.x'
+            displayName: 'Install Node.js'
+
+          - script: |
+              cd nextv3
+              npm ci
+            displayName: 'Install dependencies'
+
+          - script: |
+              cd nextv3
+              npm run build
+            displayName: 'Build project'
+
+          - script: |
+              cd nextv3
+              npx netlify-cli deploy --prod --auth $NETLIFY_AUTH_TOKEN --site $NETLIFY_SITE_ID
+            displayName: 'Deploy to Netlify'
+            env:
+              NETLIFY_AUTH_TOKEN: $(netlify_auth_token)
+              NETLIFY_SITE_ID: $(netlify_site_id)
+
+- stage: RetestDeployedApp
+  displayName: 'Retest Deployed App'
+  dependsOn: Deploy
+  condition: succeeded()
+  jobs:
+  - job: RetestDeployedAppJob
+    displayName: 'Retest Deployed App Job'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '16.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        cd nextv3
+        npm ci
+      displayName: 'Install dependencies'
+
+    - script: |
+        cd nextv3
+        BASE_URL=$(deployed_app_url) npm run test-playwright
+      displayName: 'Run Playwright tests on deployed app'
+      env:
+        deployed_app_url: $(deployed_app_url)
