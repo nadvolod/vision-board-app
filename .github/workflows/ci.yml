@@ -58,7 +58,7 @@ jobs:
       working-directory: nextv3
 
     - name: Build project
-      run: npm run build
+      run: npm run export
       working-directory: nextv3
 
     - name: Deploy to Netlify
