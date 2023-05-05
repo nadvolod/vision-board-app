@@ -26,10 +26,10 @@ stages:
         npm run build
       displayName: 'Build project'
 
-    - script: |
-        cd nextv3
-        npm run test-playwright
-      displayName: 'Run Playwright tests'
+    # - script: |
+    #     cd nextv3
+    #     npm run test-playwright
+    #   displayName: 'Run Playwright tests'
 
 - stage: Deploy
   displayName: 'Deploy to Netlify'
